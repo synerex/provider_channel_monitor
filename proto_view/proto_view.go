@@ -1,8 +1,8 @@
 package proto_view
 
 import {
+	"fmt"
 	sxutil "github.com/synerex/synerex_sxutil"
-
 }
 
 var channelSubscribers := make(map[int]func(client *sxutil.SXServiceClient))
