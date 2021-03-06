@@ -1,23 +1,25 @@
 package proto_view
 
-import {
+import (
 	"fmt"
+
 	sxutil "github.com/synerex/synerex_sxutil"
+)
+
+var channelSubscribers = make(map[int]func(*sxutil.SXServiceClient))
+
+// AddSubscriber set data
+func AddSubscriber(channel int, clFunc func(*sxutil.SXServiceClient)) {
+	fmt.Printf("View Sub: %d", channel)
+	channelSubscribers[channel] = clFunc
 }
 
-var channelSubscribers := make(map[int]func(client *sxutil.SXServiceClient))
-
-
-func addSubscriber(channel int, client *sxutil.SXServiceClient){
-	fmt.Printf("View Sub: %d",channel)
-	channelSubscribers[channel] = client
-}
-
-func subscribeAll(client *sxutil.SXSynerexClient  ){
+// SubscribeAll subscribe Functions
+func SubscribeAll(client *sxutil.SXSynerexClient) {
 
 	for ch, subscFunc := range channelSubscribers {
-		chStr := fmt.Sprintf("Clt:GridMon:%d",ch)
-		chClient := sxutil.NewSXServiceClient(client, ch, chStr)
+		chStr := fmt.Sprintf("Clt:GridMon:%d", ch)
+		chClient := sxutil.NewSXServiceClient(client, uint32(ch), chStr)
 		go subscFunc(chClient)
 	}
 

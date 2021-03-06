@@ -7,6 +7,8 @@ import (
 	"strings"
 	"sync"
 
+	view "github.com/synerex/provider_channel_monitor/proto_view"
+	_ "github.com/synerex/provider_channel_monitor/proto_view/view_grideye"
 	sxutil "github.com/synerex/synerex_sxutil"
 )
 
@@ -59,8 +61,12 @@ func main() {
 	} else {
 		log.Print("Connecting SynerexServer")
 	}
+	wg := sync.WaitGroup{}
+	wg.Add(1)
 
 	// receive all
-	view.subscribeAll(client)
+	view.SubscribeAll(client)
+
+	wg.Wait()
 
 }

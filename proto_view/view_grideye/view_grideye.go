@@ -1,19 +1,25 @@
 package view_grideye
 
-import {
+import (
+	"context"
+	"fmt"
+	"log"
 
 	"github.com/golang/protobuf/proto"
 	"github.com/golang/protobuf/ptypes"
-	view   "github.com/synerex/provider_channel_monitor/proto_view"
-	grideye "github.com/synerex/proto_grideye"
-	api "github.com/synerex/synerex_api"
-	pbase "github.com/synerex/synerex_proto"
-	sxutil "github.com/synerex/synerex_sxutil"
-}
 
-func init(){
+	view "github.com/synerex/provider_channel_monitor/proto_view"
+
+	grideye "github.com/synerex/proto_grideye"
+
+	api "github.com/synerex/synerex_api"
+
+	sxutil "github.com/synerex/synerex_sxutil"
+)
+
+func init() {
 	fmt.Printf("Initial view GridEye")
-	view.addSubscriber(pbase.GRIDEYE_SVC, subscribeGridEyeSupply)
+	view.AddSubscriber(19, subscribeGridEyeSupply)
 }
 
 func supplyGridEyeCallback(clt *sxutil.SXServiceClient, sp *api.Supply) {
@@ -30,12 +36,14 @@ func supplyGridEyeCallback(clt *sxutil.SXServiceClient, sp *api.Supply) {
 			log.Printf("GridEye:%s", line)
 		}
 
-	}else {
+	} else {
 		log.Printf("Unmarshal error on View_GridEye")
 	}
 }
 
 func subscribeGridEyeSupply(client *sxutil.SXServiceClient) {
+	//
+	log.Printf("SubscribeGridEyeSupply")
 	ctx := context.Background() //
 	client.SubscribeSupply(ctx, supplyGridEyeCallback)
 	log.Printf("Error on subscribe with GridEye")

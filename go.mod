@@ -4,5 +4,16 @@ go 1.16
 
 require github.com/synerex/synerex_sxutil v0.6.3
 
+require github.com/synerex/synerex_proto v0.1.10
 
-replace github.com/synerex/provider_channel_monitor/proto_view  => ./proto_view
+require github.com/synerex/provider_channel_monitor/proto_view v0.0.0
+
+require (
+	github.com/synerex/proto_grideye v0.0.2 // indirect
+	github.com/synerex/provider_channel_monitor/proto_view/view_grideye v0.0.0
+	github.com/synerex/synerex_api v0.4.2 // indirect
+)
+
+replace github.com/synerex/provider_channel_monitor/proto_view => ./proto_view
+
+replace github.com/synerex/provider_channel_monitor/proto_view/view_grideye => ./proto_view/view_grideye
