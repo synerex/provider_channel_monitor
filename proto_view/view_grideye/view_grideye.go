@@ -18,7 +18,7 @@ import (
 )
 
 func init() {
-	fmt.Printf("Initial view GridEye")
+	fmt.Printf("Initial view GridEye\n")
 	view.AddSubscriber(19, subscribeGridEyeSupply)
 }
 
@@ -37,14 +37,14 @@ func supplyGridEyeCallback(clt *sxutil.SXServiceClient, sp *api.Supply) {
 		}
 
 	} else {
-		log.Printf("Unmarshal error on View_GridEye")
+		log.Printf("Unmarshal error on View_GridEye\n")
 	}
 }
 
 func subscribeGridEyeSupply(client *sxutil.SXServiceClient) {
 	//
-	log.Printf("SubscribeGridEyeSupply")
+	log.Printf("SubscribeGridEyeSupply\n")
 	ctx := context.Background() //
 	client.SubscribeSupply(ctx, supplyGridEyeCallback)
-	log.Printf("Error on subscribe with GridEye")
+	log.Printf("Error on subscribe with GridEye\n")
 }

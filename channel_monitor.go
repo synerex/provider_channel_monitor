@@ -8,6 +8,7 @@ import (
 	"sync"
 
 	view "github.com/synerex/provider_channel_monitor/proto_view"
+	_ "github.com/synerex/provider_channel_monitor/proto_view/view_fluent_wifi"
 	_ "github.com/synerex/provider_channel_monitor/proto_view/view_grideye"
 	_ "github.com/synerex/provider_channel_monitor/proto_view/view_pcounter"
 	sxutil "github.com/synerex/synerex_sxutil"

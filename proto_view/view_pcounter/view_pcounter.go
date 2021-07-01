@@ -18,7 +18,7 @@ import (
 )
 
 func init() {
-	fmt.Printf("Initial view People Counter")
+	fmt.Printf("Initial view People Counter\n")
 	view.AddSubscriber(11, subscribePcounterSupply)
 }
 
@@ -29,8 +29,7 @@ func supplyPcounterCallback(clt *sxutil.SXServiceClient, sp *api.Supply) {
 	err := proto.Unmarshal(sp.Cdata.Entity, pc)
 	if err == nil { // get GridEye Data
 		ts0 := ptypes.TimestampString(pc.Ts)
-		log.Printf("PCounter %s,%v", ts0,pc)
-		
+		log.Printf("PCounter %s,%v", ts0, pc)
 
 	} else {
 		log.Printf("Unmarshal error on View_Pcoutner")
@@ -44,4 +43,3 @@ func subscribePcounterSupply(client *sxutil.SXServiceClient) {
 	client.SubscribeSupply(ctx, supplyPcounterCallback)
 	log.Printf("Error on subscribe with Pcounter")
 }
-

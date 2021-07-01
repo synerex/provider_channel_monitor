@@ -10,7 +10,7 @@ var channelSubscribers = make(map[int]func(*sxutil.SXServiceClient))
 
 // AddSubscriber set data
 func AddSubscriber(channel int, clFunc func(*sxutil.SXServiceClient)) {
-	fmt.Printf("View Sub: %d", channel)
+	fmt.Printf("View Sub: %d \n", channel)
 	channelSubscribers[channel] = clFunc
 }
 
