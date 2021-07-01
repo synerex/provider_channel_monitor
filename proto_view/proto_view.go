@@ -24,3 +24,17 @@ func SubscribeAll(client *sxutil.SXSynerexClient) {
 	}
 
 }
+
+// SubscribeChannel subscribe selected channel
+func SubscribeChannels(client *sxutil.SXSynerexClient, channelTypes []uint32) {
+
+	for _, ch := range channelTypes {
+		subscFunc, ok := channelSubscribers[int(ch)]
+		if ok {
+			chStr := fmt.Sprintf("Clt:ChMon:%d", ch)
+			chClient := sxutil.NewSXServiceClient(client, uint32(ch), chStr)
+			go subscFunc(chClient)
+		}
+	}
+
+}

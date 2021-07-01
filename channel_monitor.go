@@ -18,6 +18,7 @@ var (
 	nodesrv  = flag.String("nodesrv", "127.0.0.1:9990", "Node ID Server")
 	local    = flag.String("local", "", "Local Synerex Server")
 	channels = flag.String("channels", "19", "Monitor Channels")
+	all      = flag.Bool("all", false, "Subscribe all views")
 	mu       sync.Mutex
 )
 
@@ -67,7 +68,12 @@ func main() {
 	wg.Add(1)
 
 	// receive all
-	view.SubscribeAll(client)
+	// we should filter views
+	if *all {
+		view.SubscribeAll(client)
+	} else {
+		view.SubscribeChannels(client, channelTypes)
+	}
 
 	wg.Wait()
 
