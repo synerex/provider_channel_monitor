@@ -27,14 +27,8 @@ import (
 	sxutil "github.com/synerex/synerex_sxutil"
 )
 
-func init() {
-	fmt.Printf("Initial view Fluent-WiFi\n")
-	view.AddSubscriber(7, subscribeFluentdSupply)
-}
-
 var totalTerminals int32
 var amps map[string]*AMPM
-
 var (
 	temp_data = make(map[string]string)
 	temp_time = make(map[string][2]string)
@@ -44,6 +38,14 @@ type AMPM struct { // for signal info
 	AMPname string
 	lastTS  int64
 	count   int32
+}
+
+func init() {
+	fmt.Printf("Initial view Fluent-WiFi\n")
+	view.AddSubscriber(7, subscribeFluentdSupply)
+
+	amps = make(map[string]*AMPM)
+
 }
 
 const dateFmt = "2006-01-02T15:04:05.999999Z"
