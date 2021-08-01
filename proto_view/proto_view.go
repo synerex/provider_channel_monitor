@@ -2,7 +2,8 @@ package proto_view
 
 import (
 	"fmt"
-
+	"log"
+	api "github.com/synerex/synerex_api"
 	sxutil "github.com/synerex/synerex_sxutil"
 )
 
@@ -20,20 +21,34 @@ func SubscribeAll(client *sxutil.SXSynerexClient) {
 	for ch, subscFunc := range channelSubscribers {
 		chStr := fmt.Sprintf("Clt:GridMon:%d", ch)
 		chClient := sxutil.NewSXServiceClient(client, uint32(ch), chStr)
-		go subscFunc(chClient)
+		subscFunc(chClient)
 	}
 
 }
+
+func simpleSupplyCallback(clt *sxutil.SXServiceClient, sp *api.Supply) {
+
+	clen := 0
+	if sp.Cdata != nil {
+		clen = len(sp.Cdata.Entity)
+	}
+ 	log.Printf("SupplyName [%s] arg[%s] len:%d id:%d", sp.SupplyName, sp.ArgJson, clen, sp.SenderId )
+}
+
+
 
 // SubscribeChannel subscribe selected channel
 func SubscribeChannels(client *sxutil.SXSynerexClient, channelTypes []uint32) {
 
 	for _, ch := range channelTypes {
 		subscFunc, ok := channelSubscribers[int(ch)]
+		chStr := fmt.Sprintf("Clt:ChMon:%d", ch)		
 		if ok {
-			chStr := fmt.Sprintf("Clt:ChMon:%d", ch)
 			chClient := sxutil.NewSXServiceClient(client, uint32(ch), chStr)
-			go subscFunc(chClient)
+			subscFunc(chClient)
+		}else { // there is no specified viewer
+			chClient := sxutil.NewSXServiceClient(client, uint32(ch), chStr)
+			sxutil.SimpleSubscribeSupply(chClient, simpleSupplyCallback) 
 		}
 	}
 

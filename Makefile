@@ -13,7 +13,7 @@ RM=rm
 .PHONY: build 
 build: channel_monitor
 
-channel_monitor: channel_monitor.go
+channel_monitor: channel_monitor.go 
 	$(GOBUILD)
 
 .PHONY: clean

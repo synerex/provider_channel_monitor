@@ -3,7 +3,6 @@ package view_fluent_wifi
 import (
 	"bytes"
 	"compress/zlib"
-	"context"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
@@ -191,49 +190,53 @@ func fluentSupplyCallback(clt *sxutil.SXServiceClient, sp *api.Supply) {
 	//	log.Println("Got Fluentd Supply callback")
 
 	record := &fluentd.FluentdRecord{}
-	err := proto.Unmarshal(sp.Cdata.Entity, record)
+	if sp.Cdata != nil {	
+		err := proto.Unmarshal(sp.Cdata.Entity, record)
 
-	if err == nil {
-		//		log.Println("Got record:", record.Tag, record.Time)
-		recordStr := *(*string)(unsafe.Pointer(&(record.Record)))
-		replaced := strings.Replace(recordStr, "=>", ":", 1)
-		dt0 := jsonDecode([]byte(replaced))
-		if dt0 != nil {
-			buf := base64UnCompress(dt0["m"].(string))
-			if len(buf) > 1 {
-				dt := jsonDecode(buf)
-				if dt != nil {
-					if record.Tag == "ampsense.pack.test.signal" {
-						//				log.Printf("ID:%v, %v, %v", dt["a"], dt["ts"], dt["g"])
-						ampName := dt["a"].(string)
-						amp := amps[ampName]
-						if amp == nil {
-							amps[ampName] = &AMPM{
-								AMPname: ampName,
-								count:   0,
+		if err == nil {
+			//		log.Println("Got record:", record.Tag, record.Time)
+			recordStr := *(*string)(unsafe.Pointer(&(record.Record)))
+			replaced := strings.Replace(recordStr, "=>", ":", 1)
+			dt0 := jsonDecode([]byte(replaced))
+			if dt0 != nil {
+				buf := base64UnCompress(dt0["m"].(string))
+				if len(buf) > 1 {
+					dt := jsonDecode(buf)
+					if dt != nil {
+						if record.Tag == "ampsense.pack.test.signal" {
+							//				log.Printf("ID:%v, %v, %v", dt["a"], dt["ts"], dt["g"])
+							ampName := dt["a"].(string)
+							amp := amps[ampName]
+							if amp == nil {
+								amps[ampName] = &AMPM{
+									AMPname: ampName,
+									count:   0,
+								}
+								amp = amps[ampName]
 							}
-							amp = amps[ampName]
+							amp.lastTS = time.Now().Unix()
+							amp.count++
+							sxutil.SetNodeStatus(totalTerminals, checkAMPM())
+						} else if record.Tag == "ampsense.pack.packet.test" {
+							//						log.Printf("packet:%v\n", dt)
+							convertWiFi(dt)
+						} else { // unknown data.
+							log.Printf("UNmarshal Result: %s, %v\n", record.Tag, dt)
 						}
-						amp.lastTS = time.Now().Unix()
-						amp.count++
-						sxutil.SetNodeStatus(totalTerminals, checkAMPM())
-					} else if record.Tag == "ampsense.pack.packet.test" {
-						//						log.Printf("packet:%v\n", dt)
-						convertWiFi(dt)
-					} else { // unknown data.
-						log.Printf("UNmarshal Result: %s, %v\n", record.Tag, dt)
 					}
 				}
 			}
+			return
 		}
 	}
-
+	log.Printf("Unmarshal error on View_Pcoutner %s", sp.SupplyName)
 }
 
 func subscribeFluentdSupply(client *sxutil.SXServiceClient) {
 	//
 	log.Printf("Subscribe Fluentd Supply")
-	ctx := context.Background() //
-	client.SubscribeSupply(ctx, fluentSupplyCallback)
-	log.Printf("Error on subscribe with fluentd")
+	//	ctx := context.Background() //
+	//	client.SubscribeSupply(ctx, fluentSupplyCallback)
+	sxutil.SimpleSubscribeSupply(client, fluentSupplyCallback) // error prone..
+	//	log.Printf("Error on subscribe with fluentd")
 }

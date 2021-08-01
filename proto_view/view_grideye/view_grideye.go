@@ -1,7 +1,7 @@
 package view_grideye
 
 import (
-	"context"
+	//	"context"
 	"fmt"
 	"log"
 
@@ -25,26 +25,27 @@ func init() {
 func supplyGridEyeCallback(clt *sxutil.SXServiceClient, sp *api.Supply) {
 
 	ge := &grideye.GridEye{}
-
-	err := proto.Unmarshal(sp.Cdata.Entity, ge)
-	if err == nil { // get GridEye Data
-		ts0 := ptypes.TimestampString(ge.Ts)
-		ld := fmt.Sprintf("%s,%s,%s,%s,%s,%s,%d", ts0, ge.DeviceId, ge.Hostname, ge.Location, ge.Mac, ge.Ip, ge.Seq)
-		for _, ev := range ge.Data {
-			ts := ptypes.TimestampString(ev.Ts)
-			line := fmt.Sprintf("%s,%s,%s,%s,%d,%v", ld, ts, ev.Typ, ev.Id, ev.Seq, ev.Temps)
-			log.Printf("GridEye:%s", line)
-		}
-
-	} else {
-		log.Printf("Unmarshal error on View_GridEye\n")
+	if sp.Cdata != nil {
+		err := proto.Unmarshal(sp.Cdata.Entity, ge)
+		if err == nil { // get GridEye Data
+			ts0 := ptypes.TimestampString(ge.Ts)
+			ld := fmt.Sprintf("%s,%s,%s,%s,%s,%s,%d", ts0, ge.DeviceId, ge.Hostname, ge.Location, ge.Mac, ge.Ip, ge.Seq)
+			for _, ev := range ge.Data {
+				ts := ptypes.TimestampString(ev.Ts)
+				line := fmt.Sprintf("%s,%s,%s,%s,%d,%v", ld, ts, ev.Typ, ev.Id, ev.Seq, ev.Temps)
+				log.Printf("GridEye:%s", line)
+			}
+			return
+		} 
 	}
+	log.Printf("Unmarshal error on View_Pcoutner %s", sp.SupplyName)
 }
 
 func subscribeGridEyeSupply(client *sxutil.SXServiceClient) {
 	//
 	log.Printf("SubscribeGridEyeSupply\n")
-	ctx := context.Background() //
-	client.SubscribeSupply(ctx, supplyGridEyeCallback)
-	log.Printf("Error on subscribe with GridEye\n")
+	sxutil.SimpleSubscribeSupply(client, supplyGridEyeCallback) // error prone..
+	//	ctx := context.Background() //
+	//	client.SubscribeSupply(ctx, supplyGridEyeCallback)
+	//	log.Printf("Error on subscribe with GridEye\n")
 }
