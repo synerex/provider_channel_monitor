@@ -13,7 +13,7 @@ require (
 	github.com/synerex/synerex_proto v0.1.12
 	github.com/synerex/synerex_sxutil v0.6.8
 )
-replace github.com/synerex/synerex_sxutil => ../synerex_beta/sxutil
+//replace github.com/synerex/synerex_sxutil => ../synerex_beta/sxutil
 
 replace github.com/synerex/provider_channel_monitor/proto_view => ./proto_view
 
