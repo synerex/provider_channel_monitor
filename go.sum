@@ -95,6 +95,8 @@ github.com/synerex/synerex_proto v0.1.10 h1:7PeJT1AmJV6szm6zCLIMGBXAhXD4XC0Q1uZ0
 github.com/synerex/synerex_proto v0.1.10/go.mod h1:lUHzAQw4NAT6YAULnyoTD/MRf7UiV84wcY2m7szJ4Mg=
 github.com/synerex/synerex_proto v0.1.12 h1:AAHL5O7gQ49VkdKLcAL97jrmzI/RmAHDnUCZJ+jBkxo=
 github.com/synerex/synerex_proto v0.1.12/go.mod h1:lUHzAQw4NAT6YAULnyoTD/MRf7UiV84wcY2m7szJ4Mg=
+github.com/synerex/synerex_proto v0.1.14 h1:8aoVwQUgC3ejqYZyjjSqUrIYnMJAsPBOSNkMfq/pGo8=
+github.com/synerex/synerex_proto v0.1.14/go.mod h1:lUHzAQw4NAT6YAULnyoTD/MRf7UiV84wcY2m7szJ4Mg=
 github.com/synerex/synerex_sxutil v0.4.9/go.mod h1:/mk7Jxun00eMBW009N3NJNtSnHMcIcpDlcndRcsZM3w=
 github.com/synerex/synerex_sxutil v0.6.3 h1:Xbuwps6ZPXZlXxSuZ9evZfksZZzNi1XWUGkXt6JrdWc=
 github.com/synerex/synerex_sxutil v0.6.3/go.mod h1:CsgnVQ1uGazGC0lMMM7+tCzBogpXW94qojxRZHHWuFM=
@@ -102,6 +104,8 @@ github.com/synerex/synerex_sxutil v0.6.7 h1:Y8agNw2NU8A7EUOUeM/ilCAdklAsS7MtveyB
 github.com/synerex/synerex_sxutil v0.6.7/go.mod h1:0H3Oz2bW4zXROLQSHaIqMcBl6SIda1i60Mac7r3vbfI=
 github.com/synerex/synerex_sxutil v0.6.8 h1:LeFj4sMck03cXM+WRZOHwyLzDS1iXog4IOIh0l+jD6M=
 github.com/synerex/synerex_sxutil v0.6.8/go.mod h1:m2dLNb1CPJ9ugENGjGer6maw5M8hOZ27nB1GBhvS8PQ=
+github.com/synerex/synerex_sxutil v0.7.0 h1:vc55jd+iSV2bMj9TfunZZh3nB3aSk5CBafuOmSWK97k=
+github.com/synerex/synerex_sxutil v0.7.0/go.mod h1:m2dLNb1CPJ9ugENGjGer6maw5M8hOZ27nB1GBhvS8PQ=
 github.com/tklauser/go-sysconf v0.3.4 h1:HT8SVixZd3IzLdfs/xlpq0jeSfTX57g1v6wB1EuzV7M=
 github.com/tklauser/go-sysconf v0.3.4/go.mod h1:Cl2c8ZRWfHD5IrfHo9VN+FX9kCFjIOyVklgXycLB6ek=
 github.com/tklauser/go-sysconf v0.3.6 h1:oc1sJWvKkmvIxhDHeKWvZS4f6AW+YcoguSfRF2/Hmo4=
